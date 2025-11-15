@@ -2,10 +2,6 @@
 
 This project detects the number of raised fingers in a hand image using a combination of edge detection and geometric analysis.
 
-**Date:** 03/07/2025  
-**Name:** Stefano  
-**Surname:** Infusini  
-
 ## Workflow
 
 ### 1. Edge Detection and Processing
