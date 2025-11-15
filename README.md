@@ -1,33 +1,46 @@
-# Finger Counting Using Convexity Defects
+# Finger Counting with Canny Edge Detection and Geometric Analysis
 
-This project detects how many fingers are raised in a hand image using classical computer vision techniques. The method does not use machine learning: instead, it relies on contour extraction, convex hull computation, and convexity defects to identify the gaps between fingers.
+This project detects the number of raised fingers in a hand image using a combination of edge detection and geometric analysis.
 
-## Method Overview
+**Date:** 03/07/2025  
+**Name:** Stefano  
+**Surname:** Infusini  
 
-1. **Preprocessing**  
-   Grayscale conversion and Gaussian smoothing to reduce noise.
+## Workflow
 
-2. **Edge Detection**  
-   Canny edge detection is applied to obtain the hand's outline.
+### 1. Edge Detection and Processing
 
-3. **Contour Extraction**  
-   The largest external contour is selected as the hand.
+**1.1 Edge Detection and Denoising**  
+A Gaussian filter is applied to reduce noise, followed by Canny edge detection to extract sharp hand contours.
 
-4. **Convex Hull & Defects**  
-   The convex hull is computed, and convexity defects are used to detect the valleys between fingers.
+**1.2 Morphological Processing**  
+Morphological operations (such as dilation and closing) are used to fill small gaps and smooth the edges of the hand.
 
-5. **Finger Counting**  
-   Each valid convexity defect corresponds to a separation between two fingers:  
-   **fingers = defects + 1**
+**1.3 Region Filling (Mask Creation)**  
+The interior of the smoothed contour is filled to create a binary mask that clearly separates the hand from the background.
+
+**1.4 Contour Refinement**  
+Edges are recalculated on the binary mask to isolate a clean, continuous outer contour of the hand.
+
+### 2. Geometric Analysis
+
+**2.1 Convex Hull and Defect Detection**  
+The convex hull of the hand contour is computed to approximate the outer shape of the hand. Convexity defects are then analyzed to identify valleys between fingers.
+
+**2.2 Geometric Filtering and Finger Counting**  
+Invalid convexity defects are filtered out based on angle and distance thresholds. The remaining valid defects are used to estimate the number of raised fingers, with additional logic for special cases such as a closed fist or a single raised finger.
 
 ## Requirements
 
 - Python 3  
-- OpenCV  
 - NumPy  
-- Matplotlib (optional for visualization)
+- OpenCV  
+- scikit-image  
+- SciPy  
+- Matplotlib  
+- pyautogui (if used for capturing or automation)
 
-Install:
+Install (example):
 
 ```bash
-pip install opencv-python numpy matplotlib
+pip install numpy opencv-python scikit-image scipy matplotlib pyautogui
